@@ -15,4 +15,12 @@ abstract class User {
         $result = $req->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+    static public function getCategories(){
+        $req = Db::connect()->query("SELECT `id_categorie`, `name` FROM `categorie`");
+        return $req->fetchAll(PDO::FETCH_ASSOC);
+    }
+    static public function getAuthors(){
+        $req = Db::connect()->query("SELECT `id_author`, CONCAT(`f_name`, ' ', `l_name`) as 'full name'  FROM `author`");
+        return $req->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
