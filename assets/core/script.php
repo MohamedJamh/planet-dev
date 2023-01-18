@@ -4,15 +4,21 @@ session_start();
 
 if(isset($_POST['login'])) login();
 if(isset($_POST['logout'])) logout();
-if(isset($_POST['list_articles'])) listArticles();
+if(isset($_POST['list'])) getArticles();
+if(isset($_GET['addArtcl'])) addArticles();
+if(isset($_GET['delArtcl'])) deleteArticles();
+
 
 function login(){
     $adress = $_POST['adress'];
     $password = $_POST['password'];
     $user = Authentification::login($adress,$password);
     if(!empty($user)){
+        $id_user = (int)$user[0]['id_user'];
         $role = $user[0]['role'];
-        $_SESSION['user'] = new $role;
+        $f_name = $user[0]['f_name'];
+        $l_name = $user[0]['l_name'];
+        $_SESSION['user'] = new $role($id_user,$f_name,$l_name);
         header('location: dashboard.php');
     }else{
         $GLOBALS['message'] = 'adress or password are incorrect';
@@ -23,14 +29,30 @@ function logout(){
     session_destroy();
     header('location: index.php');
 }
-function listArticles(){
-    $articles = $_SESSION['user']->ListArticles();
-    echo json_encode($articles);
+function getArticles(){
+    echo json_encode(User::getArticles());
 }
 function addArticles(){
-    $json = '[{"id_article":"1","title":"This is a title for article 1","content":"this is a brief description for article 1","date":"2023-01-16","name":"Technologie","author_name":"Harry Clarison"},{"id_article":"2","title":"This is a title for article 2","content":"this is a brief description for article 2","date":"2023-01-15","name":"Science","author_name":"Harry Clarison"}]';
-    var_dump(json_decode($json));
+    // $json = '[{"title":"ttttttttttt","content":"ttttttttttttt","date":"2023-01-17","id_categorie":3,"id_author":1}]';
+    // $articles = json_decode($json);
+    $articles = json_decode($_POST['articles']);
+    foreach ($articles as $key => $value) {
+        $article = new Article(null,$value->title, $value->content, $value->date , $value->id_categorie , $value->id_author);
+        echo $_SESSION['user']->AddArticle($article);
+    }
+    $GLOBALS['message'] = 'Article(s) where added succesfully';
 }
-
-
-
+function updateArticles(){
+    // $json = '[{"id_article":1,"title":"updated","content":"updated","date":"2023-01-17","id_categorie":3,"id_author":1}]';
+    $articles = json_decode($_POST['articles']);
+    $article = json_decode($json);
+    $articleObj = new Article($article[0]->id_article, $article[0]->title, $article[0]->content, $article[0]->date , $article[0]->id_categorie , $article[0]->id_author);
+    $_SESSION['user']->UpdateArticle($articleObj);
+}
+function deleteArticles(){
+    $id_article = $_POST['id_article'];
+    $_SESSION['user']->DeleteArticle($id_article);
+}
+function statistics(){
+    return $_SESSION['user']->Statistics();
+}

@@ -1,13 +1,13 @@
 <?php
 abstract class User {
-    private $id_user;
-    private $f_name;
-    private $l_name;
-    private $adress;
-    private $password;
+    protected $id_user;
+    protected $f_name;
+    protected $l_name;
+    protected $adress;
+    protected $password;
 
-    public function ListArticles(){
-        $req = Db::connect()->query("SELECT ar.id_article , ar.title , ar.content , ar.date , c.name , CONCAT(au.f_name , ' ',au.l_name) 'author_name' 
+    static public function getArticles(){
+        $req = Db::connect()->query("SELECT ar.id_article , ar.title , ar.content , ar.date , c.name AS 'cat_name' , CONCAT(au.f_name , ' ',au.l_name) 'author_name' 
         FROM user u, author au, categorie c, article ar
         WHERE ar.id_user LIKE u.id_user
         AND ar.id_categorie LIKE c.id_categorie

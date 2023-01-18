@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Home</title>
     <?php
         require_once 'assets/includes/autoload.php';
         require_once 'assets/core/script.php';
@@ -12,6 +13,7 @@
     ?>
 </head>
 <body>
+
     <form action="" method="POST">
         <input type="text" name="adress">
         <input type="password" name="password">
