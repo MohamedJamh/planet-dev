@@ -4,6 +4,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/planet-dev/assets/includes/autoload.php
 if(isset($_POST['login'])) login();
 if(isset($_POST['logout'])) logout();
 if(isset($_POST['list'])) getArticles();
+if(isset($_POST['id_article'])) getArticle();
 if(isset($_POST['addArtcl'])) addArticles();
 if(isset($_POST['delArtcl'])) deleteArticles();
 if(isset($_POST['categories'])) categories();
@@ -33,6 +34,10 @@ function logout(){
 }
 function getArticles(){
     echo json_encode(User::getArticles());
+}
+function getArticle(){
+    $id_article = $_POST['id_article'];
+    echo json_encode(User::getArticle($id_article));
 }
 function addArticles(){
     // $json = '[{"title":"ttttttttttt","content":"ttttttttttttt","date":"2023-01-17","id_categorie":3,"id_author":1}]';
