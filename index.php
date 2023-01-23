@@ -9,9 +9,8 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <title>Home</title>
     <?php
-        require_once 'assets/includes/autoload.php';
+        session_start();
         require_once 'assets/core/script.php';
-        // session_destroy();
     ?>
 </head>
 <body>

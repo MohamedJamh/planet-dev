@@ -10,9 +10,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/style.css">
     <?php
-        require_once 'assets/includes/autoload.php';
         require_once 'assets/core/script.php';
-        if(!isset($_SESSION['user'])) header('location: index.php');
+        // if(!isset($_SESSION['user'])) header('location: index.php');
     ?>
 </head>
 <body class="">
@@ -50,7 +49,7 @@
                         </svg>
                         <span class="sr-only">Search</span>
                     </button>
-                    <button  class="flex items-center gap-2 text-gray-500 hover:bg-gray-100 rounded-lg text-sm px-2.5 mr-1" >
+                    <button data-modal-target="extralarge-modal" data-modal-toggle="extralarge-modal" class="flex items-center gap-2 text-gray-500 hover:bg-gray-100 rounded-lg text-sm px-2.5 mr-1" >
                         <svg class="w-6 h-6" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25"><title>Write Message</title><path id="Write_Message" data-name="Write Message" d="M21,11h1V23.75A1.26,1.26,0,0,1,20.75,25H1.25A1.25,1.25,0,0,1,0,23.75V4.25A1.25,1.25,0,0,1,1.25,3H14V4H1.25A.25.25,0,0,0,1,4.25v19.5a.25.25,0,0,0,.25.25h19.5a.25.25,0,0,0,.25-.25ZM8.72,12.87,8,16.4a.5.5,0,0,0,.49.6h.1l3.5-.71a.5.5,0,0,0,.25-.14L22.68,5.82l-3.5-3.5L8.85,12.62A.5.5,0,0,0,8.72,12.87ZM24.54,1.75,23.25.46a1.56,1.56,0,0,0-2.2,0L19.88,1.61l3.5,3.5L24.54,4h0a1.56,1.56,0,0,0,0-2.2Z" fill="#0e1d25"/></svg>
                         <span>Write</span>
                     </button>
@@ -81,26 +80,66 @@
         </div>
     </nav>
     <main class="container mx-auto">
-        <div class="flex md:mx-20 lg:mx-28">
-            <!-- <div id="statistics" class="flex items-center justify-around md:justify-start felx-wrap gap-1 w-100 max-h-fit py-3">
-                <span class="bg-gray-100 text-gray-800 text-xs font-medium ml-1 rounded-full w-24 h-6 md:w-32 md:h-8 md:text-lg grid place-content-center">4 Users</span>    
-                <span class="bg-gray-100 text-gray-800 text-xs font-medium ml-1 rounded-full w-24 h-6 md:w-32 md:h-8 md:text-lg grid place-content-center">4 Authors</span>    
-                <span class="bg-gray-100 text-gray-800 text-xs font-medium ml-1 rounded-full w-24 h-6 md:w-32 md:h-8 md:text-lg grid place-content-center">4 Articles</span>    
-                <span class="bg-gray-100 text-gray-800 text-xs font-medium ml-1 rounded-full w-24 h-6 md:w-32 md:h-8 md:text-lg grid place-content-center">4 Categories</span>    
-            </div> -->
-            <div class="articles flex flex-col gap-2">
-                <a href="#" class="flex flex-col items-center bg-white border-b md:flex-row md:w-full hover:bg-gray-100 border-gray-700 bg-white hover:bg-gray-600 duration-700">
-                    <img class="object-cover w-full h-96 md:h-auto md:w-48 md:rounded-none " src="https://flowbite.com/docs/images/blog/image-4.jpg" alt="">
-                    <div class="flex flex-col justify-between p-4 leading-normal">
-                        <div>
-                            <div id="author-profile" class="inline-block h-6 w-6 rounded-full text-white bg-slate-700 text-center">J</div>
-                            <span id="author-name text-white text-2xl font-extralight">Author author</span>
-                            <span id="article-date text-slate-500"></span>
-                        </div>
-                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">Noteworthy technology acquisitions 2021</h5>
-                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400" title="Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order....</p>
-                    </div>
-                </a>
+        <div class="flex md:mx-20 lg:mx-16">
+            <div class="">
+                <!-- <div id="categorie-container" class=" flex items-center gap-1 w-1/2 h-fit py-3 overflow-x-scroll w-80 md:w-96">
+                    <div class="inline-flex">
+                        <a href="#"  class="px-4 py-2 text-sm font-medium text-blue-700 bg-white border-b border-gray-200 hover:bg-gray-100 ">
+                            Profile
+                        </a>
+                        <a href="#" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 ">
+                            Settings
+                        </a>
+                        <a href="#" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 ">
+                            Messages
+                        </a>
+                        <a href="#" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 ">
+                            Settings
+                        </a>
+                        <a href="#" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 ">
+                            Messages
+                        </a>
+                        <a href="#" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 ">
+                            Settings
+                        </a>
+                        <a href="#" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 ">
+                            Messages
+                        </a>
+                        <a href="#" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 ">
+                            Settings
+                        </a>
+                        <a href="#" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 ">
+                            Messages
+                        </a>
+                        <a href="#" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 ">
+                            Settings
+                        </a>
+                        <a href="#" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 ">
+                            Messages
+                        </a>
+                        <a href="#" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 ">
+                            Settings
+                        </a>
+                        <a href="#" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 ">
+                            Messages
+                        </a>
+                        <a href="#" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 ">
+                            Settings
+                        </a>
+                        <a href="#" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 ">
+                            Messages
+                        </a>
+                        <a href="#" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 ">
+                            Settings
+                        </a>
+                        <a href="#" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 ">
+                            Messages
+                        </a>
+                    </div>  
+                </div> -->
+                <div id="articles" class="flex flex-col gap-2">
+                    <!-- articles here -->
+                </div>
             </div>
             <aside class="sticky top-0 w-60 hidden lg:block h-max">
                 <div class="flex flex-col gap-2 items-center py-5">
@@ -112,17 +151,83 @@
             </aside>
         </div>
     </main>
-
+    <div id="extralarge-modal" tabindex="-1" class="drop-shadow-2xl fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-scroll md:inset-0 h-modal h-full">
+        <div class="relative w-full h-screen max-w-7xl">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex items-center justify-between p-5 border-b rounded-t dark:border-gray-600">
+                    <h3 class="text-xl font-medium text-gray-900 dark:text-white">
+                        Write...
+                    </h3>
+                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="extralarge-modal">
+                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div id="form-container" class="p-3 space-y-3">
+                    <form id="1" class="form-article border-b border-slate-400 pb-3">
+                        <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
+                        <input type="text"  id="" class="article-title shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Article's title">
+                        <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your message</label>
+                        <textarea id="" rows="4" class="article-content block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Article's content here . . . . ."></textarea>
+                        <label for="categorie" class="block mb-2 text-sm font-medium text-gray-900 ">Select articles categorie</label>
+                        <select id="" class="article-categorie bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        </select>
+                        <label for="author" class="block mb-2 text-sm font-medium text-gray-900 ">Select articles author</label>
+                        <select id="" class="author bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        </select>
+                    </form>
+                </div>
+                <!-- Modal footer -->
+                <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                    <button data-modal-hide="extralarge-modal" type="button" class="text-white bg-slate-600 hover:bg-slate-500 duration-700 text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+                    <button onclick="formDuplicate();" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 ">Add Article Form</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="extralarge-modal-2" tabindex="-1" class="drop-shadow-2xl fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-scroll md:inset-0 h-modal md:h-full">
+        <div class="relative w-full h-auto max-w-7xl  ">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex items-center justify-between p-5 border-b rounded-t dark:border-gray-600">
+                    <h3 class="text-xl font-medium text-gray-900 dark:text-white">
+                        Edit Article
+                    </h3>
+                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="extralarge-modal-2">
+                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div id="form-container" class="p-3 space-y-3">
+                    <form id="editForm" class="form-article">
+                        <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
+                        <input type="text"  id="" class="article-title shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Article's title">
+                        <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your message</label>
+                        <textarea id="" rows="20" class="article-content block overflow-scroll p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Article's content here . . . . ."></textarea>
+                        <label for="categorie" class="block mb-2 text-sm font-medium text-gray-900 ">Select articles categorie</label>
+                        <select id="" class="article-categorie bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <!-- categorie options here  -->
+                        </select>
+                        <label for="author" class="block mb-2 text-sm font-medium text-gray-900 ">Select articles author</label>
+                        <select id="" class="author bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <!-- author options here  -->
+                        </select>
+                    </form>
+                </div>
+                <!-- Modal footer -->
+                <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                    <button data-modal-hide="extralarge-modal" type="button" class="text-white bg-slate-600 hover:bg-slate-500 duration-700 text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Update</button>
+                    <button data-modal-hide="extralarge-modal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 ">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.2/flowbite.min.js"></script>
-    <script>
-        $.get("assets/core/script.php",{ addArtcl : true}, function(data,status){}, 'json');
-        // $.ajax({
-        //     url: `assets/core/data.php`,
-        //     dataType: "json",
-        //     success: (data,status) => {
-        //         console.log(data);
-        //     }
-        // });
-    </script>
+    <script src="./assets/js/script.js"></script>
 </body>
 </html>

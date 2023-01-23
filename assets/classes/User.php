@@ -7,7 +7,7 @@ abstract class User {
     protected $password;
 
     static public function getArticles(){
-        $req = Db::connect()->query("SELECT ar.id_article , ar.title , ar.content , ar.date , c.name AS 'cat_name' , CONCAT(au.f_name , ' ',au.l_name) 'author_name' 
+        $req = Db::connect()->query("SELECT ar.id_article , ar.title , ar.content , ar.date , ar.read_time , c.name AS 'cat_name' , CONCAT(au.f_name , ' ',au.l_name) 'author_name' 
         FROM user u, author au, categorie c, article ar
         WHERE ar.id_user LIKE u.id_user
         AND ar.id_categorie LIKE c.id_categorie
@@ -20,7 +20,7 @@ abstract class User {
         return $req->fetchAll(PDO::FETCH_ASSOC);
     }
     static public function getAuthors(){
-        $req = Db::connect()->query("SELECT `id_author`, CONCAT(`f_name`, ' ', `l_name`) as 'full name'  FROM `author`");
+        $req = Db::connect()->query("SELECT `id_author`, CONCAT(`f_name`, ' ', `l_name`) as 'full_name'  FROM `author`");
         return $req->fetchAll(PDO::FETCH_ASSOC);
     }
 }

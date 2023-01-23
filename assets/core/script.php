@@ -1,15 +1,17 @@
 <?php
-
-session_start();
+include_once $_SERVER['DOCUMENT_ROOT']."/planet-dev/assets/includes/autoload.php";
 
 if(isset($_POST['login'])) login();
 if(isset($_POST['logout'])) logout();
 if(isset($_POST['list'])) getArticles();
-if(isset($_GET['addArtcl'])) addArticles();
-if(isset($_GET['delArtcl'])) deleteArticles();
+if(isset($_POST['addArtcl'])) addArticles();
+if(isset($_POST['delArtcl'])) deleteArticles();
+if(isset($_POST['categories'])) categories();
+if(isset($_POST['authores'])) authores();
 
 
 function login(){
+    session_start();
     $adress = $_POST['adress'];
     $password = $_POST['password'];
     $user = Authentification::login($adress,$password);
@@ -55,4 +57,12 @@ function deleteArticles(){
 }
 function statistics(){
     return $_SESSION['user']->Statistics();
+}
+function categories(){
+    $all_categories = User::getCategories();
+    echo json_encode($all_categories);
+}
+function authores(){
+    $all_authores = User::getAuthors();
+    echo json_encode($all_authores);
 }
