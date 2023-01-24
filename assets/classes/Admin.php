@@ -21,10 +21,11 @@ class Admin extends User {
         $title = $article->getTitle();
         $content = $article->getContent();
         $date = $article->getDate();
+        $read_time = $article->getReadTime();
         $id_categorie = $article->getCategorie();
         $id_author = $article->getAuthor();
         $id_user = $this->id_user;
-        Db::connect()->query("UPDATE `article` SET `title`='$title',`content`='$content',`date`='$date',`id_categorie`='$id_categorie',`id_author`='$id_author',`id_user`='$id_user'
+        Db::connect()->query("UPDATE `article` SET `title`='$title',`content`='$content',`read_time`='$read_time',`id_categorie`='$id_categorie',`id_author`='$id_author',`id_user`='$id_user'
         WHERE `id_article`='$id_article'");
     }
 
