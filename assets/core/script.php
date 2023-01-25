@@ -4,22 +4,23 @@ include_once $_SERVER['DOCUMENT_ROOT']."/planet-dev/assets/includes/autoload.php
 session_start();
 
 
-
 if(isset($_POST['login'])) login();
-if(isset($_POST['logout'])) logout();
-if(isset($_POST['list'])) getArticles();
-if(isset($_POST['id_article'])) getArticle();
-if(isset($_POST['addedArticles'])) addArticles();
-if(isset($_POST['updatedArticle'])) updateArticle();
-if(isset($_POST['deletedArticle'])) deleteArticle();
-if(isset($_POST['categories'])) categories();
-if(isset($_POST['authores'])) authores();
-if(isset($_POST['getStatistics'])) statistics();
+if(isset($_SESSION['user'])){
+    if(isset($_POST['logout'])) logout();
+    if(isset($_POST['list'])) getArticles();
+    if(isset($_POST['id_article'])) getArticle();
+    if(isset($_POST['addedArticles'])) addArticles();
+    if(isset($_POST['updatedArticle'])) updateArticle();
+    if(isset($_POST['deletedArticle'])) deleteArticle();
+    if(isset($_POST['categories'])) categories();
+    if(isset($_POST['authores'])) authores();
+    if(isset($_POST['getStatistics'])) statistics();
+}
 
 
 function login(){
     $adress = $_POST['adress'];
-    $password = $_POST['password'];
+    $password = $_POST['passcode'];
     $user = Authentification::login($adress,$password);
     if(!empty($user)){
         $id_user = (int)$user[0]['id_user'];
@@ -27,9 +28,9 @@ function login(){
         $f_name = $user[0]['f_name'];
         $l_name = $user[0]['l_name'];
         $_SESSION['user'] = new $role($id_user,$f_name,$l_name);
-        header('location: /planet-dev/');
+        echo 'true';
     }else{
-        $GLOBALS['message'] = 'adress or password are incorrect';
+        echo 'adress or password are incorrect';
     }
 }
 

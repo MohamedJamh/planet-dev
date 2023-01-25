@@ -5,6 +5,23 @@ var articleDropDownIdCounter = 1;
 $.post("assets/core/script.php",{ getStatistics : true}, function(data,status){setStatistics(data)},"json");
 $.post("assets/core/script.php",{ authores : true}, function(data,status){fillDropDowns(data,"authores")},"json");
 $.post("assets/core/script.php",{ categories : true}, function(data,status){fillDropDowns(data,"categories")},"json");
+function login(){
+    let email = $('#email').val()
+    let password = $('#password').val()
+    if(email != "" || password != ""){
+        $.post("assets/core/script.php",{ login : true , adress : email , passcode : password},function(data,status){
+            if(data === "true"){
+                window.location.href = "/planet-dev/";
+            }else{
+                $('#alert-wrapper').toggleClass('hidden');
+                $('#alert-wrapper #alert-container').text(`Alert ! ${data}`);
+            }
+        });
+    }else{
+        $('#alert-wrapper').toggleClass('hidden');
+        $('#alert-wrapper #alert-container').text(`Alert ! All fields are required`);
+    }
+}
 function setStatistics(stats){
     $('.users-stats').html('Users '+stats['userCount'])
     $('.authors-stats').html('Authors '+stats['authorCount'])
@@ -73,15 +90,28 @@ function prepareArticleToDelete(idArticle){
     $('#delete-modal #delete-article-btn').attr("onclick",`deleteArticle(${idArticle});`)
 }
 function updateArticle(idArticle){
-    let updatedArticle = {}
-    updatedArticle['id_article'] = idArticle;
-    updatedArticle['title'] = $('#extralarge-modal-2 .article-title').val()
-    updatedArticle['content'] = $('#extralarge-modal-2 .article-content').val()
-    updatedArticle['read_time'] = Math.round((updatedArticle['content'].split(' ').length)/200)
-    updatedArticle['id_categorie'] = $('#extralarge-modal-2 .article-categorie').val();
-    updatedArticle['id_author'] = $('#extralarge-modal-2 .author').val();
-    $.post("assets/core/script.php",{ updatedArticle : JSON.stringify(updatedArticle)})
-    listArticles();
+
+    let isValid = true
+    let inputs = $('#extralarge-modal-2 form input , #extralarge-modal-2 form textarea , #extralarge-modal-2 form select')
+    for (let index = 0; index < inputs.length; index++) {
+        if(inputs[index].value == ""){
+            isValid = false
+        }
+    }
+    if(isValid){
+        let updatedArticle = {}
+        updatedArticle['id_article'] = idArticle;
+        updatedArticle['title'] = $('#extralarge-modal-2 .article-title').val()
+        updatedArticle['content'] = $('#extralarge-modal-2 .article-content').val()
+        updatedArticle['read_time'] = Math.round((updatedArticle['content'].split(' ').length)/200)
+        updatedArticle['id_categorie'] = $('#extralarge-modal-2 .article-categorie').val();
+        updatedArticle['id_author'] = $('#extralarge-modal-2 .author').val();
+        $.post("assets/core/script.php",{ updatedArticle : JSON.stringify(updatedArticle)})
+        listArticles();
+    }else{
+        $('#alert').toggleClass('hidden');
+        $('#alert .alert-container').text('All fields are required');
+    }
 }
 function deleteArticle(idArticle){
     $.post("assets/core/script.php",{ deletedArticle : idArticle })
@@ -141,6 +171,11 @@ function addArticles(){
         formObj = {}
         let formData = new FormData(formContainer.get(i))
         for (const [key, value] of formData) {
+            if(value == ""){
+                $('#alert').toggleClass('hidden');
+                $('#alert .alert-container').text('All fields are required');
+                return 
+            }
             formObj[`${key}`] = value
         }
         let date = new Date()
