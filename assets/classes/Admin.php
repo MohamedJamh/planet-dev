@@ -11,10 +11,11 @@ class Admin extends User {
         $title = $article->getTitle();
         $content = $article->getContent();
         $date = $article->getDate();
+        $read_time = $article->getReadTime();
         $id_categorie = $article->getCategorie();
         $id_author = $article->getAuthor();
         $id_user = $this->id_user;
-        Db::connect()->query("INSERT INTO `article`(`title`, `content`, `date`, `id_categorie`, `id_author`, `id_user`) VALUES ('$title','$content','$date','$id_categorie','$id_author','$id_user')");
+        Db::connect()->query("INSERT INTO `article`(`title`, `content`, `date`, `read_time`, `id_categorie`, `id_author`, `id_user`) VALUES ('$title','$content','$date',$read_time,$id_categorie,$id_author,$id_user);");
     }
     public function UpdateArticle($article){
         $id_article = $article->getId();
@@ -34,7 +35,7 @@ class Admin extends User {
     }
 
     public function Statistics(){
-        $tables = array("user","article","categorie");
+        $tables = array("user","article","categorie","author");
         $statistics = array();
         foreach ($tables as $table_name) {
             $req = Db::connect()->query("SELECT COUNT(*) FROM $table_name");

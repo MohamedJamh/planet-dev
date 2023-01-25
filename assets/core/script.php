@@ -9,11 +9,12 @@ if(isset($_POST['login'])) login();
 if(isset($_POST['logout'])) logout();
 if(isset($_POST['list'])) getArticles();
 if(isset($_POST['id_article'])) getArticle();
-if(isset($_POST['addArtcl'])) addArticles();
+if(isset($_POST['addedArticles'])) addArticles();
 if(isset($_POST['updatedArticle'])) updateArticle();
-if(isset($_POST['delArtcl'])) deleteArticles();
+if(isset($_POST['deletedArticle'])) deleteArticle();
 if(isset($_POST['categories'])) categories();
 if(isset($_POST['authores'])) authores();
+if(isset($_POST['getStatistics'])) statistics();
 
 
 function login(){
@@ -37,34 +38,33 @@ function logout(){
     header('location: index.php');
 }
 function getArticles(){
-    echo json_encode(User::getArticles());
+    $order_by = $_POST['order_by'];
+    $order = $_POST['order'];
+    echo json_encode(User::getArticles($order_by, $order));
 }
 function getArticle(){
     $id_article = $_POST['id_article'];
     echo json_encode(User::getArticle($id_article));
 }
 function addArticles(){
-    // $json = '[{"title":"ttttttttttt","content":"ttttttttttttt","date":"2023-01-17","id_categorie":3,"id_author":1}]';
-    // $articles = json_decode($json);
-    $articles = json_decode($_POST['articles']);
+    $articles = json_decode($_POST['addedArticles']);
     foreach ($articles as $key => $value) {
-        $article = new Article(null,$value->title, $value->content, $value->date , $value->id_categorie , $value->id_author);
-        echo $_SESSION['user']->AddArticle($article);
+        $article = new Article(null,$value->title, $value->content, $value->date , $value->read_time , $value->categorie , $value->author);
+        $_SESSION['user']->AddArticle($article);
     }
     $GLOBALS['message'] = 'Article(s) where added succesfully';
 }
 function updateArticle(){
-    // $articles = json_decode($_POST['articles']);
-    $article = json_decode('{"id_article":55,"title":"this is a title","content":"this is a content","read_time":0,"id_categorie":"2","id_author":"1"}');
+    $article = json_decode($_POST['updatedArticle']);
     $articleObj = new Article($article->id_article, $article->title, $article->content, null ,$article->read_time, $article->id_categorie , $article->id_author);
     $_SESSION['user']->UpdateArticle($articleObj);
 }
-function deleteArticles(){
-    $id_article = $_POST['id_article'];
+function deleteArticle(){
+    $id_article = $_POST['deletedArticle'];
     $_SESSION['user']->DeleteArticle($id_article);
 }
 function statistics(){
-    return $_SESSION['user']->Statistics();
+    echo json_encode($_SESSION['user']->Statistics());
 }
 function categories(){
     $all_categories = User::getCategories();

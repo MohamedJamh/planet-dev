@@ -6,12 +6,12 @@ abstract class User {
     protected $adress;
     protected $password;
 
-    static public function getArticles(){
+    static public function getArticles($order_by,$order){
         $req = Db::connect()->query("SELECT ar.id_article , ar.title , ar.content , ar.date , ar.read_time , c.name AS 'cat_name' , CONCAT(au.f_name , ' ',au.l_name) 'author_name'
         FROM user u, author au, categorie c, article ar
         WHERE ar.id_user LIKE u.id_user
         AND ar.id_categorie LIKE c.id_categorie
-        AND ar.id_author LIKE au.id_author");
+        AND ar.id_author LIKE au.id_author ORDER BY ar.$order_by $order");
         $result = $req->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
